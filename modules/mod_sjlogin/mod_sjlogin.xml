@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+	type="module"
+	version="2.5"
+	client="site"
+	method="upgrade">
+	<name>mod_sjlogin</name>
+	<author>VampiRUS</author>
+	<creationDate>September 2012</creationDate>
+	<copyright>vampirus.ru</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>vamp1rus@yandex.ru</authorEmail>
+	<authorUrl>vampirus.ru</authorUrl>
+	<version>0.0.3</version>
+	<description>MOD_SJLOGIN_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_sjlogin">mod_sjlogin.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>mod_sjlogin.xml</filename>
+	</files>
+	<languages folder="language">
+		<language tag="ru-RU">ru-RU/ru-RU.mod_sjlogin.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.mod_sjlogin.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.mod_sjlogin.ini</language>
+		<language tag="en-GB">en-GB/en-GB.mod_sjlogin.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="pretext"
+					type="textarea"
+					filter="safehtml"
+					cols="30"
+					rows="5"
+					label="MOD_SJLOGIN_FIELD_PRE_TEXT_LABEL"
+					description="MOD_SJLOGIN_FIELD_PRE_TEXT_DESC" />
+				<field
+					name="posttext"
+					type="textarea"
+					filter="safehtml"
+					cols="30"
+					rows="5"
+					label="MOD_SJLOGIN_FIELD_POST_TEXT_LABEL"
+					description="MOD_SJLOGIN_FIELD_POST_TEXT_DESC" />
+				<field
+					name="login"
+					type="menuitem"
+					disable="separator"
+					label="MOD_SJLOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
+					description="MOD_SJLOGIN_FIELD_LOGIN_REDIRECTURL_DESC" >
+					<option
+						value="">JDEFAULT</option>
+				</field>
+				<field
+					name="logout"
+					type="menuitem"
+					disable="separator"
+					label="MOD_SJLOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
+					description="MOD_SJLOGIN_FIELD_LOGOUT_REDIRECTURL_DESC" >
+					<option
+						value="">JDEFAULT</option>
+				</field>
+				<field
+					name="greeting"
+					type="radio"
+					default="1"
+					label="MOD_SJLOGIN_FIELD_GREETING_LABEL"
+					description="MOD_SJLOGIN_FIELD_GREETING_DESC">
+					<option
+						value="0">JNo</option>
+					<option
+						value="1">JYes</option>
+				</field>
+				<field
+					name="name"
+					type="list"
+					default="0"
+					label="MOD_SJLOGIN_FIELD_NAME_LABEL"
+					description="MOD_SJLOGIN_FIELD_NAME_DESC">
+					<option
+						value="0">MOD_SJLOGIN_VALUE_NAME</option>
+					<option
+						value="1">MOD_SJLOGIN_VALUE_USERNAME</option>
+				</field>
+				<field
+					name="usesecure"
+					type="radio"
+					default="0"
+					label="MOD_SJLOGIN_FIELD_USESECURE_LABEL"
+					description="MOD_SJLOGIN_FIELD_USESECURE_DESC">
+					<option
+						value="0">JNo</option>
+					<option
+						value="1">JYes</option>
+				</field>
+			</fieldset>
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field
+					name="cache"
+					type="list"
+					default="0"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

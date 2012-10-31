@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="socialjlogin" method="upgrade">
+	<name>plg_socialjlogin_google</name>
+	<author>VampiRUS</author>
+	<creationDate>Oktober 2012</creationDate>
+	<copyright>vampirus.ru</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>vamp1rus@yandex.ru</authorEmail>
+	<authorUrl>vampirus.ru</authorUrl>
+	<version>0.0.1</version>
+	<description>PLG_SOCIALJLOGIN_GOOGLE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="google">google.php</filename>
+		<filename>index.html</filename>
+		<filename>google.png</filename>
+	</files>
+	<languages folder="language">
+		<language tag="ru-RU">ru-RU/ru-RU.plg_socialjlogin_google.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.plg_socialjlogin_google.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_socialjlogin_google.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_socialjlogin_google.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+
+			<fieldset name="basic">
+				<field name="clientid" type="text"
+					default=""
+					description="PLG_SOCIALJLOGIN_GOOGLE_FIELD_CLIENTID_DESC"
+					label="PLG_SOCIALJLOGIN_GOOGLE_FIELD_CLIENTID_LABEL"
+					/>
+				
+				<field name="secret" type="text"
+					default=""
+					description="PLG_SOCIALJLOGIN_GOOGLE_FIELD_SECRET_DESC"
+					label="PLG_SOCIALJLOGIN_GOOGLE_FIELD_SECRET_LABEL"
+					/>
+				
+			</fieldset>
+
+		</fields>
+	</config>
+</extension>

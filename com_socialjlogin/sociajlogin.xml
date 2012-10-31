@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+	<name>com_socialjlogin</name>
+	<author>VampiRUS</author>
+	<creationDate>September 2012</creationDate>
+	<copyright>vampirus.ru</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>vamp1rus@yandex.ru</authorEmail>
+	<authorUrl>vampirus.ru</authorUrl>
+	<version>0.0.2</version>
+	<description>COM_SOCIALJLOGIN_XML_DESCRIPTION</description>
+
+	<install> <!-- Runs on install -->
+    	<sql>
+        	<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+  		</sql>
+    </install>
+    <uninstall> <!-- Runs on uninstall -->
+    	<sql>
+        	<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+  		</sql>
+   </uninstall>
+
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>socialjlogin.php</filename>
+		<filename>plugin.php</filename>
+		<filename>controller.php</filename>
+		<filename>router.php</filename>
+		<filename>metadata.xml</filename>
+		<folder>views</folder>
+		<folder>language</folder>
+		<filename>LICENSE.txt</filename>
+	</files>
+	<languages folder="site">
+		<language tag="ru-RU">language/ru-RU/ru-RU.com_socialjlogin.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.com_socialjlogin.ini</language>
+	</languages>
+	<administration>
+		<menu img="components/com_socialjlogin/img/icon_16.png">com_socialjlogin</menu>
+		<submenu>
+			<menu link="option=com_plugins&amp;view=plugins&amp;filter_folder=socialjlogin"
+				view="plugins" img="class:plugin" alt="Plugins">com_socialjlogin_plugins</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>index.html</filename>
+			<filename>socialjlogin.php</filename>
+			<folder>img</folder>
+			<folder>sql</folder>
+			<folder>language</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="ru-RU">language/ru-RU/ru-RU.com_socialjlogin.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.com_socialjlogin.sys.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_socialjlogin.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_socialjlogin.sys.ini</language>
+		</languages>
+	</administration>
+</extension>
+

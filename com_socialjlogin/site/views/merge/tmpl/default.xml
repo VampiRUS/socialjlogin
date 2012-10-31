@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<metadata>
+	<layout title="com_socialjlogin_merge_view_default_title" option="com_socialjlogin_merge_view_default_option">
+		<message>
+			<![CDATA[COM_SOCIALJLOGIN_MERGE_LAYOUT_DESC]]>
+		</message>
+	</layout>
+</metadata>

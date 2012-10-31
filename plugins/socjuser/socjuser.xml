@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="user" method="upgrade">
+	<name>User - Socialjlogin</name>
+	<author>VampiRUS</author>
+	<creationDate>September 2012</creationDate>
+	<copyright></copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>vamp1rus@yandex.ru</authorEmail>
+	<authorUrl>vampirus.ru</authorUrl>
+	<version>0.0.1</version>
+	<description>User synchronisation plugin</description>
+	<files>
+		<filename plugin="socjuser">socjuser.php</filename>
+	</files>
+</extension>

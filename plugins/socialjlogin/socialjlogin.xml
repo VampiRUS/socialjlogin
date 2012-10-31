@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="authentication" method="upgrade">
+	<name>Authentication - Socialjlogin</name>
+	<author>VampiRUS</author>
+	<creationDate>September 2010</creationDate>
+	<copyright>vampirus.ru (C)</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>vamp1rus@yandex.ru</authorEmail>
+	<authorUrl>vampirus.ru</authorUrl>
+	<version>2.5.0</version>
+	<description>Social authentication</description>
+	<files>
+		<filename plugin="socialjlogin">socialjlogin.php</filename>
+		<filename>index.html</filename>
+	</files>
+</extension>
