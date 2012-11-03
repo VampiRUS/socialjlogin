@@ -1,5 +1,5 @@
 #!/bin/bash
-
+rm packages/*.*
 zip -rq packages/com_socialjlogin.zip com_socialjlogin
 cd modules
 for i in $(ls);do
@@ -13,6 +13,5 @@ for i in $(ls);do
 	zip -rq "../packages/plg_${PREFIX}_${i}.zip" $i
 done
 cd ..
-VERSION=`grep "<version" pkg_socialjlogin.xml|sed 's/<version>\(.*\)<\/version>/\1/'`
-
+VERSION=`grep "<version" pkg_socialjlogin.xml|sed 's/.*<version>\(.*\)<\/version>/\1/'`
 zip -rq "pkg_socialjlogin_${VERSION}.zip" packages install.php pkg_socialjlogin.xml
