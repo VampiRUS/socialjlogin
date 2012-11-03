@@ -150,12 +150,10 @@ class SocialjloginPlugin extends JPlugin{
 		}
 		else
 		{
-			// Facilitate third party login forms
 			if ( ! $return ) {
-				$return	= JRoute::_('index.php?option=com_users&view=login', false);
+				$return	= JRoute::_('index.php?option=com_socialjlogin', false);
 			}
 
-			// Redirect to a login form
 			$mainframe->redirect( $return );
 		}
 	
