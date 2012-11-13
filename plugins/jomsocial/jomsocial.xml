@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="socialjloginintegration" method="upgrade">
+	<name>plg_socialjloginintegration_jomsocial</name>
+	<author>VampiRUS</author>
+	<creationDate>November 2012</creationDate>
+	<copyright>vampirus.ru</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>vamp1rus@yandex.ru</authorEmail>
+	<authorUrl>vampirus.ru</authorUrl>
+	<version>0.0.1</version>
+	<description>PLG_SOCIALJLOGININTEGRATION_JOMSOCIAL_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="jomsocial">jomsocial.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages folder="language">
+		<language tag="ru-RU">ru-RU/ru-RU.plg_socialjloginintegration_jomsocial.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.plg_socialjloginintegration_jomsocial.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_socialjloginintegration_jomsocial.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_socialjloginintegration_jomsocial.sys.ini</language>
+	</languages>
+	<config/>
+</extension>

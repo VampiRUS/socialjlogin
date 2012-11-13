@@ -4,7 +4,7 @@
 	<author>VampiRUS</author>
 	<creationDate>October 2012</creationDate>
 	<packagename>socialjlogin</packagename>
-	<version>1.0.2</version>
+	<version>1.1.0</version>
 	<url>http://vampirus.ru/</url>
 	<packager>VampiRUS</packager>
 	<packagerurl>http://vampirus.ru/</packagerurl>
@@ -22,6 +22,7 @@
 	   <file type="plugin" id="twitter" group="socialjlogin">plg_socialjlogin_twitter.zip</file>
 	   <file type="plugin" id="socjuser" group="user">plg_user_socjuser.zip</file>
 	   <file type="plugin" id="socialjlogin" group="authentication">plg_authentication_socialjlogin.zip</file>
+	   <file type="plugin" id="jomsocial" group="socialjloginintegration">plg_socialjloginintegration_jomsocial.zip</file>
 	</files>
 </extension>
 

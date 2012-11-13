@@ -145,7 +145,12 @@ class SocialjloginPlugin extends JPlugin{
 			if ( ! $return ) {
 					$return	= JRoute::_('index.php');
 			}
-
+			JPluginHelper::importPlugin('socialjloginintegration');
+			$dispatcher	= JDispatcher::getInstance();
+			$results = $dispatcher->trigger('onSocialLogin',array($this->getSocId(),$this->name));
+			foreach($results as $url){
+				if ($url) $return = $url;
+			}
 			$mainframe->redirect( $return );
 		}
 		else

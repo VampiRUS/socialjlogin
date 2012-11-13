@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>vamp1rus@yandex.ru</authorEmail>
 	<authorUrl>vampirus.ru</authorUrl>
-	<version>0.0.2</version>
+	<version>0.1.0</version>
 	<description>COM_SOCIALJLOGIN_XML_DESCRIPTION</description>
 
 	<install> <!-- Runs on install -->
@@ -41,6 +41,8 @@
 		<submenu>
 			<menu link="option=com_plugins&amp;view=plugins&amp;filter_folder=socialjlogin"
 				view="plugins" img="class:plugin" alt="Plugins">com_socialjlogin_plugins</menu>
+			<menu link="option=com_plugins&amp;view=plugins&amp;filter_folder=socialjloginintegration"
+				view="plugins" img="class:plugin" alt="Plugins">com_socialjlogin_integrationplugins</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
