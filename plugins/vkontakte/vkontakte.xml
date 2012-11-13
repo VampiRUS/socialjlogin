@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>vamp1rus@yandex.ru</authorEmail>
 	<authorUrl>vampirus.ru</authorUrl>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<description>PLG_SOCIALJLOGIN_VKONTAKTE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="vkontakte">vkontakte.php</filename>

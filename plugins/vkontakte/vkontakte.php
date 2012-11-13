@@ -47,7 +47,7 @@ class plgSocialjloginVKontakte extends SocialjloginPlugin
 			$this->id = $result->user_id;
 			$this->token = $result->access_token;
 			$response = $http->get('https://api.vk.com/method/users.get?uid='.$this->id
-				.'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate,city,country,timezone,photo,photo_rec,photo_medium_rec,photo_medium,photo_big,has_mobile,contacts,education,relation&access_token='.$this->token);
+				.'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate,city,country,timezone,photo_100,photo_rec,photo_medium_rec,photo_medium,photo_big,has_mobile,contacts,education,relation&access_token='.$this->token);
 			$result = json_decode($response->body);
 			if (isset($result->error)){
 				JError::raiseError('500',$result->error->error_msg);
@@ -78,9 +78,12 @@ class plgSocialjloginVKontakte extends SocialjloginPlugin
 			if(isset($this->user_profile->sex))$data['sex'] = $this->user_profile->sex;
 			if(isset($this->user_profile->first_name))$data['first_name'] = $this->user_profile->first_name;
 			if(isset($this->user_profile->last_name))$data['last_name'] = $this->user_profile->last_name;
-			if(isset($this->user_profile->screen_name))$data['screen_name'] = $this->user_profile->screen_name;
+			if(isset($this->user_profile->screen_name)){
+				$data['screen_name'] = $this->user_profile->screen_name;
+				$data['link'] = 'http://vk.com/'.$this->user_profile->screen_name;
+			}
 			if(isset($this->user_profile->timezone))$data['timezone'] = $this->user_profile->timezone;
-			if(isset($this->user_profile->photo))$data['photo'] = $this->user_profile->photo;
+			if(isset($this->user_profile->photo_100))$data['photo'] = $this->user_profile->photo_100;
 			if(isset($this->user_profile->photo_medium))$data['photo_medium'] = $this->user_profile->photo_medium;
 			if(isset($this->user_profile->photo_medium_rec))$data['photo_medium_rec'] = $this->user_profile->photo_medium_rec;
 			if(isset($this->user_profile->photo_big))$data['photo_big'] = $this->user_profile->photo_big;
@@ -120,7 +123,7 @@ class plgSocialjloginVKontakte extends SocialjloginPlugin
 			$this->id = $result->user_id;
 			$this->token = $result->access_token;
 			$response = $http->get('https://api.vk.com/method/users.get?uid='.$this->id
-				.'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate,city,country,timezone,photo,photo_rec,photo_medium_rec,photo_medium,photo_big,has_mobile,contacts,education,relation&access_token='.$this->token);
+				.'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate,city,country,timezone,photo_100,photo_rec,photo_medium_rec,photo_medium,photo_big,has_mobile,contacts,education,relation&access_token='.$this->token);
 			$result = json_decode($response->body);
 			if (isset($result->error)){
 				JError::raiseError('500',$result->error->error_msg);
