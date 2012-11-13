@@ -21,8 +21,8 @@ class plgSocialjloginintegrationJomsocial extends JPlugin{
 		$db->setQuery('SELECT count(userid) from #__community_users where userid='.$data->userid);
 		$exists = $db->loadResult();
 		if (!$exists){
-			$thumb = $data->photo;
-			$avatar = ($data->photo_rec)?$data->photo_rec:$data->photo;
+			$avatar = $data->photo;
+			$thumb = ($data->photo_rec)?$data->photo_rec:$data->photo;
 			if (strpos($thumb,'http://')===0){
 				$img = file_get_contents($thumb);
 				if ($img && file_put_contents(JPATH_ROOT.'/images/avatar/thumb_'.md5($thumb).'.jpg',$img)){
