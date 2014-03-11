@@ -13,6 +13,7 @@
 		<filename plugin="twitter">twitter.php</filename>
 		<filename>index.html</filename>
 		<filename>twitter.png</filename>
+		<folder>twitteroauth</folder>
 	</files>
 	<languages folder="language">
 		<language tag="ru-RU">ru-RU/ru-RU.plg_socialjlogin_twitter.ini</language>
