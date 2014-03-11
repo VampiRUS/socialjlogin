@@ -30,18 +30,18 @@
 					description="PLG_SOCIALJLOGIN_MAILRU_FIELD_APPID_DESC"
 					label="PLG_SOCIALJLOGIN_MAILRU_FIELD_APPID_LABEL"
 					/>
-				
-				<field name="secret" type="text"
-					default=""
-					description="PLG_SOCIALJLOGIN_MAILRU_FIELD_SECRET_DESC"
-					label="PLG_SOCIALJLOGIN_MAILRU_FIELD_SECRET_LABEL"
-					/>
 				<field name="private" type="text"
 					default=""
 					description="PLG_SOCIALJLOGIN_MAILRU_FIELD_PRIVATE_DESC"
 					label="PLG_SOCIALJLOGIN_MAILRU_FIELD_PRIVATE_LABEL"
 					/>
-				
+				<field name="secret" type="text"
+					default=""
+					description="PLG_SOCIALJLOGIN_MAILRU_FIELD_SECRET_DESC"
+					label="PLG_SOCIALJLOGIN_MAILRU_FIELD_SECRET_LABEL"
+					/>
+
+
 			</fieldset>
 
 		</fields>
