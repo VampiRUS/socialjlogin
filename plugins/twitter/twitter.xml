@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>vamp1rus@yandex.ru</authorEmail>
 	<authorUrl>vampirus.ru</authorUrl>
-	<version>0.0.2</version>
+	<version>0.1.0</version>
 	<description>PLG_SOCIALJLOGIN_TWITTER_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="twitter">twitter.php</filename>
@@ -29,13 +29,13 @@
 					description="PLG_SOCIALJLOGIN_TWITTER_FIELD_KEY_DESC"
 					label="PLG_SOCIALJLOGIN_TWITTER_FIELD_KEY_LABEL"
 					/>
-				
+
 				<field name="secret" type="text"
 					default=""
 					description="PLG_SOCIALJLOGIN_TWITTER_FIELD_SECRET_DESC"
 					label="PLG_SOCIALJLOGIN_TWITTER_FIELD_SECRET_LABEL"
 					/>
-				
+
 			</fieldset>
 
 		</fields>
