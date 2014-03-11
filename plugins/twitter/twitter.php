@@ -7,6 +7,7 @@
 defined('_JEXEC') or die;
 if (!class_exists('SocialjloginPlugin'))
     require(JPATH_ROOT .'/components/com_socialjlogin/plugin.php');
+require_once(JPATH_ROOT .'/plugins/socialjlogin/twitter/twitteroauth/twitteroauth.php');
 
 class plgSocialjloginTwitter extends SocialjloginPlugin
 {
@@ -29,82 +30,16 @@ class plgSocialjloginTwitter extends SocialjloginPlugin
 	{
 		$token = JRequest::getVar('oauth_token','');
 		if ($token){
-            $oauth_verifier = JRequest::getVar("oauth_verifier");
-            $nonce=md5(time());
-            
-            $time = time();
-            
-            $request_string="POST&".
-                    rawurlencode("https://api.twitter.com/oauth/access_token")."&".
-                    rawurlencode(
-                            "oauth_consumer_key=".$this->params->get('key')."&".
-                            "oauth_nonce=$nonce&".
-                            "oauth_signature_method=HMAC-SHA1&".
-                            "oauth_timestamp=$time&".
-                            "oauth_token=$token&".
-                            "oauth_verifier=$oauth_verifier&".
-                            "oauth_version=1.0");
-            
-            $sign = rawurlencode( base64_encode( hash_hmac(
-                    "sha1", $request_string, $this->params->get('secret')."&", true) ) );
-            
-            $authorisationHeader = "OAuth ".
-                    "oauth_consumer_key=\"".$this->params->get('key')."\", ".
-                    "oauth_nonce=\"$nonce\", ".
-                    "oauth_signature_method=\"HMAC-SHA1\", ".
-                    "oauth_timestamp=\"$time\", ".
-                    "oauth_signature=\"$sign\", ".
-                    "oauth_token=\"$token\", ".
-                    "oauth_version=\"1.0\"";
-			$headers = array('Authorization'=>$authorisationHeader);
-			$http = $this->getHttp();
-			$response = $http->post("https://api.twitter.com/oauth/access_token",array(),$headers);
-            $responseTokens = array();
-            parse_str($response->body, $responseTokens);
+			$oauth_verifier = JRequest::getVar("oauth_verifier");
+			$connection = new TwitterOAuth($this->params->get('key'), $this->params->get('secret'), $token, "123");
+			$access_token = $connection->getAccessToken($oauth_verifier);
+			$connection = new TwitterOAuth($this->params->get('key'), $this->params->get('secret'), $access_token['oauth_token'], $access_token['oauth_token_secret']);
+			$result = $connection->get('account/verify_credentials');
 
-			if(!isset($responseTokens["oauth_token"])){
-				JError::raiseError(500,$response->body);
-			}
-            $twitter_url = "https://api.twitter.com/1/users/lookup.json";
-            
-            $nonce=md5(time());
-            
-            $time = time();
-            
-            $request_string="GET&".
-                    rawurlencode($twitter_url)."&".
-                    rawurlencode(
-                            "oauth_consumer_key=".$this->params->get('key')."&".
-                            "oauth_nonce=$nonce&".
-                            "oauth_signature_method=HMAC-SHA1&".
-                            "oauth_timestamp=$time&".
-                            "oauth_token={$responseTokens["oauth_token"]}&".
-                            "oauth_verifier=$oauth_verifier&".
-                            "oauth_version=1.0&".
-                            "user_id=".$responseTokens["user_id"]);
-            
-            $sign = rawurlencode(
-               base64_encode(
-                 hash_hmac("sha1", $request_string,
-                   $this->params->get('secret')."&".$responseTokens["oauth_token_secret"], true) ) );
-            
-            
-            $authorisationHeader = "OAuth ".
-                    "oauth_consumer_key=\"".$this->params->get('key')."\", ".
-                    "oauth_nonce=\"$nonce\", ".
-                    "oauth_signature_method=\"HMAC-SHA1\", ".
-                    "oauth_timestamp=\"$time\", ".
-                    "oauth_signature=\"$sign\", ".
-                    "oauth_token=\"{$responseTokens["oauth_token"]}\", ".
-                    "oauth_version=\"1.0\"";
-			$headers = array('Authorization'=>$authorisationHeader);
-			$response = $http->get($twitter_url."?user_id=".$responseTokens["user_id"],$headers);
-
-			$result = json_decode($response->body);
 			if (isset($result->errors)||is_null($result)){
 				JError::raiseError(500,$result->errors[0]->message);
 			}
-			$this->user_profile = $result[0];
+			$this->user_profile = $result;
 			$this->realname = $this->user_profile->name;
 			$this->username = $this->user_profile->screen_name.'_'.$this->name.$this->user_profile->id;
 			$this->email = $this->user_profile->screen_name.'@twitter.com';
@@ -116,33 +51,14 @@ class plgSocialjloginTwitter extends SocialjloginPlugin
 				$this->registration();
 			}
 		} else {
-            $callback=rawurlencode('http://'.JURI::getInstance()->getHost().JRoute::_('index.php?option=com_socialjlogin&task=login&type='.$this->name));
-            $nonce=md5(time());
-            
-            $time = time();
-            $request_string="POST&".
-                    rawurlencode('https://api.twitter.com/oauth/request_token')."&".
-					rawurlencode("oauth_callback=$callback&oauth_consumer_key=".$this->params->get('key')
-					."&oauth_nonce=$nonce&oauth_signature_method=HMAC-SHA1&oauth_timestamp=$time&oauth_version=1.0");
-            
-            $sign = rawurlencode( base64_encode( hash_hmac("sha1", $request_string, $this->params->get('secret')."&", true) ) );
-            
-            $authorisationHeader = "OAuth oauth_callback=\"$callback\", ".
-                    "oauth_consumer_key=\"".$this->params->get('key')."\", oauth_nonce=\"$nonce\", ".
-                    "oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"$time\", ".
-                    "oauth_signature=\"$sign\", oauth_version=\"1.0\"";
-			$http = $this->getHttp();
-			$headers = array('Authorization'=>$authorisationHeader);
-			$result = $http->post('https://api.twitter.com/oauth/request_token',array(),$headers);
-            $responseTokens = array();
-			parse_str($result->body, $responseTokens);
-            if(isset($responseTokens["oauth_token"])){
-                header("Location: https://api.twitter.com/oauth/authenticate?oauth_token=".$responseTokens["oauth_token"]);
-				JFactory::getApplication()->redirect("https://api.twitter.com/oauth/authenticate?oauth_token=".$responseTokens["oauth_token"]);
-            }else{
+			$callback='http://'.JURI::getInstance()->getHost().JRoute::_('index.php?option=com_socialjlogin&task=login&type='.$this->name);
+			$connection = new TwitterOAuth($this->params->get('key'), $this->params->get('secret'));
+			$request_token = $connection->getRequestToken($callback);
+			if(isset($request_token["oauth_token"])){
+				JFactory::getApplication()->redirect("https://api.twitter.com/oauth/authenticate?oauth_token=".$request_token["oauth_token"]);
+			}else{
 				JError::raiseError(500,$result->body);
-            }
-
+			}
 		}
 		return true;
 	}
@@ -164,81 +80,14 @@ class plgSocialjloginTwitter extends SocialjloginPlugin
 		$token = JRequest::getVar('oauth_token','');
 		if ($token){
             $oauth_verifier = JRequest::getVar("oauth_verifier");
-            $nonce=md5(time());
-            
-            $time = time();
-            
-            $request_string="POST&".
-                    rawurlencode("https://api.twitter.com/oauth/access_token")."&".
-                    rawurlencode(
-                            "oauth_consumer_key=".$this->params->get('key')."&".
-                            "oauth_nonce=$nonce&".
-                            "oauth_signature_method=HMAC-SHA1&".
-                            "oauth_timestamp=$time&".
-                            "oauth_token=$token&".
-                            "oauth_verifier=$oauth_verifier&".
-                            "oauth_version=1.0");
-            
-            $sign = rawurlencode( base64_encode( hash_hmac(
-                    "sha1", $request_string, $this->params->get('secret')."&", true) ) );
-            
-            $authorisationHeader = "OAuth ".
-                    "oauth_consumer_key=\"".$this->params->get('key')."\", ".
-                    "oauth_nonce=\"$nonce\", ".
-                    "oauth_signature_method=\"HMAC-SHA1\", ".
-                    "oauth_timestamp=\"$time\", ".
-                    "oauth_signature=\"$sign\", ".
-                    "oauth_token=\"$token\", ".
-                    "oauth_version=\"1.0\"";
-			$headers = array('Authorization'=>$authorisationHeader);
-			$http = $this->getHttp();
-			$response = $http->post("https://api.twitter.com/oauth/access_token",array(),$headers);
-            $responseTokens = array();
-            parse_str($response->body, $responseTokens);
-
-			if(!isset($responseTokens["oauth_token"])){
-				JError::raiseError(500,$response->body);
-			}
-            $twitter_url = "https://api.twitter.com/1/users/lookup.json";
-            
-            $nonce=md5(time());
-            
-            $time = time();
-            
-            $request_string="GET&".
-                    rawurlencode($twitter_url)."&".
-                    rawurlencode(
-                            "oauth_consumer_key=".$this->params->get('key')."&".
-                            "oauth_nonce=$nonce&".
-                            "oauth_signature_method=HMAC-SHA1&".
-                            "oauth_timestamp=$time&".
-                            "oauth_token={$responseTokens["oauth_token"]}&".
-                            "oauth_verifier=$oauth_verifier&".
-                            "oauth_version=1.0&".
-                            "user_id=".$responseTokens["user_id"]);
-            
-            $sign = rawurlencode(
-               base64_encode(
-                 hash_hmac("sha1", $request_string,
-                   $this->params->get('secret')."&".$responseTokens["oauth_token_secret"], true) ) );
-            
-            
-            $authorisationHeader = "OAuth ".
-                    "oauth_consumer_key=\"".$this->params->get('key')."\", ".
-                    "oauth_nonce=\"$nonce\", ".
-                    "oauth_signature_method=\"HMAC-SHA1\", ".
-                    "oauth_timestamp=\"$time\", ".
-                    "oauth_signature=\"$sign\", ".
-                    "oauth_token=\"{$responseTokens["oauth_token"]}\", ".
-                    "oauth_version=\"1.0\"";
-			$headers = array('Authorization'=>$authorisationHeader);
-			$response = $http->get($twitter_url."?user_id=".$responseTokens["user_id"],$headers);
-
-			$result = json_decode($response->body);
+			$connection = new TwitterOAuth($this->params->get('key'), $this->params->get('secret'), $token, "123");
+			$access_token = $connection->getAccessToken($oauth_verifier);
+			$connection = new TwitterOAuth($this->params->get('key'), $this->params->get('secret'), $access_token['oauth_token'], $access_token['oauth_token_secret']);
+			$result = $connection->get('account/verify_credentials');
 			if (isset($result->errors)||is_null($result)){
 				JError::raiseError(500,$result->errors[0]->message);
 			}
-			$this->user_profile = $result[0];
+			$this->user_profile = $result;
 			$this->realname = $this->user_profile->name;
 			$this->username = $this->user_profile->screen_name.'_'.$this->name.$this->user_profile->id;
 			$this->email = $this->user_profile->screen_name.'@twitter.com';
@@ -249,29 +98,11 @@ class plgSocialjloginTwitter extends SocialjloginPlugin
 			if(isset($this->user_profile->utc_offset))$data['timezone'] = $this->user_profile->utc_offset/(60*60);
 			$this->mergeUserInfo($data);
 		} else {
-            $callback=rawurlencode('http://'.JURI::getInstance()->getHost().JRoute::_('index.php?option=com_socialjlogin&task=login&type='.$this->name));
-            $nonce=md5(time());
-            
-            $time = time();
-            $request_string="POST&".
-                    rawurlencode('https://api.twitter.com/oauth/request_token')."&".
-					rawurlencode("oauth_callback=$callback&oauth_consumer_key=".$this->params->get('key')
-					."&oauth_nonce=$nonce&oauth_signature_method=HMAC-SHA1&oauth_timestamp=$time&oauth_version=1.0");
-            
-            $sign = rawurlencode( base64_encode( hash_hmac("sha1", $request_string, $this->params->get('secret')."&", true) ) );
-            
-            $authorisationHeader = "OAuth oauth_callback=\"$callback\", ".
-                    "oauth_consumer_key=\"".$this->params->get('key')."\", oauth_nonce=\"$nonce\", ".
-                    "oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"$time\", ".
-                    "oauth_signature=\"$sign\", oauth_version=\"1.0\"";
-			$http = $this->getHttp();
-			$headers = array('Authorization'=>$authorisationHeader);
-			$result = $http->post('https://api.twitter.com/oauth/request_token',array(),$headers);
-            $responseTokens = array();
-			parse_str($result->body, $responseTokens);
-            if(isset($responseTokens["oauth_token"])){
-                header("Location: https://api.twitter.com/oauth/authenticate?oauth_token=".$responseTokens["oauth_token"]);
-				JFactory::getApplication()->redirect("https://api.twitter.com/oauth/authenticate?oauth_token=".$responseTokens["oauth_token"]);
+            $callback='http://'.JURI::getInstance()->getHost().JRoute::_('index.php?option=com_socialjlogin&task=login&type='.$this->name);
+            $connection = new TwitterOAuth($this->params->get('key'), $this->params->get('secret'));
+			$request_token = $connection->getRequestToken($callback);
+			if(isset($request_token["oauth_token"])){
+				JFactory::getApplication()->redirect("https://api.twitter.com/oauth/authenticate?oauth_token=".$request_token["oauth_token"]);
             }else{
 				JError::raiseError(500,$result->body);
             }
